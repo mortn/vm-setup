@@ -1,24 +1,19 @@
 #cloud-config
 
 package_update: true
-#package_upgrade: true
-
-#bootcmd:
-#  - echo 'network: {config: disabled}' > /etc/cloud/cloud.cfg.d/99-custom-networking.cfg
-#  - echo 'W01hdGNoXQpOYW1lPWVucDFzMAoKW05ldHdvcmtdCkRIQ1A9eWVzCg==' | base64 -d > /etc/systemd/network/10-lan.network
-#  - systemctl enable --now systemd-networkd
+package_upgrade: true
 
 runcmd:
   - sysctl --system
   - systemctl restart systemd-modules-load
-  - systemctl enable --now crio
   - sudo -Hu morten byobu-enable
   - apt -qy purge nano
   - sed -i '/#alias\ l/ s/#//' /home/*/.bashrc
   - sed -i '/da_DK.UTF-8/ s/#\ //' /etc/locale.gen
   - locale-gen
   - ip -4 a s enp1s0 | awk '/inet/{print $2}' | tee /dev/tty1
-  - sed -i 's/^cgroup_manager.*/cgroup_manager="systemd"/' /etc/crio/crio.conf
+  - sed -i 's/^.*cgroup_manager.*/cgroup_manager="systemd"/' /etc/crio/crio.conf
+  - systemctl enable --now crio
 
 packages:
   - apt-transport-https
@@ -27,7 +22,6 @@ packages:
   - cri-o
   - cri-tools
   - cri-o-runc
-  #- containerd
   - curl
   - git
   - gnupg2

@@ -79,7 +79,7 @@ write_files:
   - path: /etc/apt/preferences.d/linux-image
     content: |
       Package: linux-image-amd64
-      Pin: release a=$RELEASE-backports
+      Pin: release a=bullseye-backports
       Pin-Priority: 600
   - path: /etc/apt/trusted.gpg.d/k8s-apt-key.gpg
     encoding: b64

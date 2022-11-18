@@ -1,10 +1,10 @@
 #!/bin/bash
-if [ "$EUID" -ne 0 ]; then echo "Please run as root"; exit; fi
-if [ $# -eq 0 ]; then echo "Usage: $0 [VM disk]"; exit; fi
+[[ "$EUID" -ne 0 ]] && echo "Please run as root" && exit
+[[ $# -eq 0 ]] && echo "Usage: $0 [VM disk]" && exit
 
 disk_dir=/var/lib/libvirt/images
-#remote_source=http://cloud.debian.org/images/cloud/bookworm/daily/latest/debian-12-genericcloud-amd64-daily.qcow2
-remote_source=https://cloud.debian.org/images/cloud/bullseye/latest/debian-11-genericcloud-amd64.qcow2
+remote_source=http://cloud.debian.org/images/cloud/bookworm/daily/latest/debian-12-genericcloud-amd64-daily.qcow2
+#remote_source=https://cloud.debian.org/images/cloud/bullseye/latest/debian-11-genericcloud-amd64.qcow2
 local_source=$disk_dir/${remote_source##*/}
 disk_name=$disk_dir/$1
 disk_size=20G
